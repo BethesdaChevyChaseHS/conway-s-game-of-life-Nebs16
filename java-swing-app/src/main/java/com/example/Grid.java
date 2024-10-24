@@ -62,7 +62,26 @@ public class Grid extends JPanel implements ActionListener {
             }
         }
     }
+    private int countLiveNeighbors(int row, int col) {
+        int liveNeighbors = 0;
 
+        // Loop through the neighbors (including diagonals)
+        for (int i = -1; i <= 1; i++) {
+            for (int j = -1; j <= 1; j++) {
+                if (i == 0 && j == 0) continue; // Skip the cell itself
+
+                int newRow = row + i;
+                int newCol = col + j;
+
+                // Check if the neighbor is within the grid bounds
+                if (newRow >= 0 && newRow < rows && newCol >= 0 && newCol < cols) {
+                    liveNeighbors += grid[newRow][newCol];
+                }
+            }
+        }
+
+        return liveNeighbors;
+    }
     //ALL YOUR CODE GOES HERE
     public void nextGeneration() {
         //1 Create a new temporary new array to store the values of the next generation
@@ -74,15 +93,15 @@ public class Grid extends JPanel implements ActionListener {
                 
                 if (grid[row][col] == 1) { 
                     if (liveNeighbors < 2 || liveNeighbors > 3) {
-                        newGrid[row][col] = 0; 
+                        newGrid[row][col] = 1; 
                     } else {
-                        newGrid[row][col] = 1;
+                        newGrid[row][col] = 2;
                     }
                 } else { // If the cell is dead
                     if (liveNeighbors == 3) {
-                        newGrid[row][col] = 1; 
+                        newGrid[row][col] = 2; 
                     } else {
-                        newGrid[row][col] = 0;
+                        newGrid[row][col] = 1;
                     }
                 }
             }
